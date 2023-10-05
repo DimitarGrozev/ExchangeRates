@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  # MSSQL Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: my_sqlserver
+    environment:
+      SA_PASSWORD: z+nr&Ij7CS3ccv2   
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    networks:
+      - my_network
+
+  # Redis Cache
+  redis:
+    image: redis:latest
+    container_name: my_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my_network
+
+  # RabbitMQ
+  rabbitmq:
+    image: "rabbitmq:latest"
+    container_name: my_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # Management UI
+    networks:
+      - my_network
+
+networks:
+  my_network:
