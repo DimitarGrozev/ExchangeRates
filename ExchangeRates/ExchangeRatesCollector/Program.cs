@@ -1,4 +1,6 @@
+using ExchangeRates.Data;
 using Fixerr.Installer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +13,10 @@ var host = new HostBuilder()
         })
     .Build();
 
+var dbContext = host.Services.GetService<ExchangeRatesDbContext>();
+await dbContext.Database.EnsureCreatedAsync();
+await dbContext.Database.MigrateAsync();
+
 host.Run();
 
 
@@ -18,6 +24,8 @@ void Configure(IServiceCollection services)
 {
     var configRoot = BuilderConfiguration();
     services.AddFixer(configRoot.GetValue<string>("Fixer_API_Key"));
+    services.AddDbContext<ExchangeRatesDbContext>(
+                options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, configRoot.GetConnectionString("Database")));
 }
 
 IConfigurationRoot BuilderConfiguration()

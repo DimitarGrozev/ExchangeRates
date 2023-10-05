@@ -8,12 +8,19 @@
     <UserSecretsId>2a95bbae-e2fb-4e28-a951-3ebf6c8bcc1e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Fixerr" Version="1.3.0" />
+    <None Remove=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.19.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.0.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.14.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeRates.Data\ExchangeRates.Data.csproj" />
+    <ProjectReference Include="..\Fixer.SDK\Fixer.SDK.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

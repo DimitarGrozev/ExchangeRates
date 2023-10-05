@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRatesXml", "Exchang
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatesCollector", "ExchangeRatesCollector\ExchangeRatesCollector.csproj", "{3C91B507-DE98-4149-BDAB-24305AECC9F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixer.SDK", "Fixer.SDK\Fixer.SDK.csproj", "{39E656B3-B286-4336-B306-6A80FF3E76AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRates.Data", "ExchangeRates.Data\ExchangeRates.Data.csproj", "{7C56E2BB-8520-4072-B4A6-16C82D2490A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C56E2BB-8520-4072-B4A6-16C82D2490A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C56E2BB-8520-4072-B4A6-16C82D2490A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C56E2BB-8520-4072-B4A6-16C82D2490A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C56E2BB-8520-4072-B4A6-16C82D2490A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
