@@ -2,7 +2,7 @@
   "profiles": {
     "ExchangeRatesCollector": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7234",
+      "commandLineArgs": "--port 7077",
       "launchBrowser": false
     }
   }
