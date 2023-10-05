@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # MSSQL Database
-  sqlserver:
+  database:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: my_sqlserver
     environment:
@@ -13,17 +13,20 @@ services:
       - my_network
 
   # Redis Cache
-  redis:
-    image: redis:latest
-    container_name: my_redis
+  cache:
+    image: redis:6.2-alpine
+    restart: always
     ports:
-      - "6379:6379"
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     networks:
       - my_network
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
 
   # RabbitMQ
-  rabbitmq:
-    image: "rabbitmq:latest"
+  messaging:
+    image: "rabbitmq:3-management-alpine"
     container_name: my_rabbitmq
     ports:
       - "5672:5672"
