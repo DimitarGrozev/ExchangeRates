@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExchangeRatesCollector.Configurations
+namespace ExchangeRates.Configuration
 {
     public class ExchangeRatesConfiguration
     {

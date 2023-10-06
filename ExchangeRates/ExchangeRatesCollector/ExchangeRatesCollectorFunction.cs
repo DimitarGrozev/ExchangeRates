@@ -1,6 +1,6 @@
 using System;
+using ExchangeRates.Configuration;
 using ExchangeRates.Data;
-using ExchangeRatesCollector.Configurations;
 using ExchangeRatesCollector.Utilities;
 using Fixerr;
 using Fixerr.Models;
@@ -14,7 +14,7 @@ namespace ExchangeRatesCollector
 {
     public class ExchangeRatesCollectorFunction
     {
-        private readonly ILogger _logger;
+        private readonly ILogger logger;
         private readonly IFixerClient fixerClient;
         private readonly IOptions<ExchangeRatesConfiguration> exchangeRatesConfig;
         private readonly ExchangeRatesDbContext dbContext;
@@ -27,7 +27,7 @@ namespace ExchangeRatesCollector
             ExchangeRatesDbContext dbContext,
             ConnectionMultiplexer redisConnection)
         {
-            _logger = loggerFactory.CreateLogger<ExchangeRatesCollectorFunction>();
+            this.logger = loggerFactory.CreateLogger<ExchangeRatesCollectorFunction>();
             this.fixerClient = fixerClient;
             this.exchangeRatesConfig = exchangeRatesConfig;
             this.dbContext = dbContext;
@@ -37,7 +37,7 @@ namespace ExchangeRatesCollector
         [Function("GetExchangeRates")]
         public async Task GetExchangeRates([TimerTrigger("%TimerSchedule%")] MyInfo myTimer)
         {
-            _logger.LogInformation($"[{DateTime.Now}] Fetching exchange rates...");
+            this.logger.LogInformation($"[{DateTime.Now}] Fetching exchange rates...");
 
             var redisCache = this.redisConnection.GetDatabase();
             var latestRateTasks = new List<Task<LatestRate?>>();
@@ -47,18 +47,27 @@ namespace ExchangeRatesCollector
                 latestRateTasks.Add(this.fixerClient.GetLatestRateAsync(baseCurrency: currency));
             }
 
+            // fetch new
             var latestRates = await Task.WhenAll(latestRateTasks);
 
             if (latestRates != null && latestRates.Length > 0)
             {
-                var exchangeRates = latestRates.ToExchangeRate().Where(exchangeRate => exchangeRate != null).ToList();
+                //save to db and cache
+                var exchangeRates = latestRates.ToExchangeRate()
+                    .Where(exchangeRate => exchangeRate != null)
+                    .ToList();
+
                 await this.dbContext.ExchangeRates.AddRangeAsync(exchangeRates);
                 await this.dbContext.SaveChangesAsync();
 
-                exchangeRates.ForEach(exchangeRate => redisCache.StringSet(exchangeRate.Base, exchangeRate.RatesJson));
+                // can set cache expiry but if trigger is delayed we might not hit it on time so just overwrite on new request
+                exchangeRates.ForEach(exchangeRate =>
+                    redisCache.StringSet(exchangeRate.Base, exchangeRate.RatesJson)); 
+
+                // publish message to rabbitMQ
             }
 
-            _logger.LogInformation($"[{DateTime.Now}] Fetching completed...");
+            this.logger.LogInformation($"[{DateTime.Now}] Fetching completed...");
         }
     }
 

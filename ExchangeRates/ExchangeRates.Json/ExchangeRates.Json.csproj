@@ -5,23 +5,23 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>2a95bbae-e2fb-4e28-a951-3ebf6c8bcc1e</UserSecretsId>
+    <UserSecretsId>207b060b-0800-48b2-8bb6-468fc835a693</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.19.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.14.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.122" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExchangeRates.Configuration\ExchangeRates.Configuration.csproj" />
     <ProjectReference Include="..\ExchangeRates.Data\ExchangeRates.Data.csproj" />
-    <ProjectReference Include="..\Fixer.SDK\Fixer.SDK.csproj" />
+    <ProjectReference Include="..\ExchangeRates.Services\ExchangeRates.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
