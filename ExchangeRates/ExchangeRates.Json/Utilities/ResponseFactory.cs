@@ -1,4 +1,4 @@
-﻿using ExchangeRates.Json.Contracts;
+﻿using ExchangeRates.Json.Contracts.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,8 @@ namespace ExchangeRates.Json.Utilities
             return new Response<T>
             {
                 Message = message,
-                IsSuccsessful = false
+                IsSuccsessful = false,
+                Value = default
             };
         }
     }

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Collector", "ExchangeRatesCollector\ExchangeRates.Collector.csproj", "{3C91B507-DE98-4149-BDAB-24305AECC9F6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fixer.SDK", "Fixer.SDK\Fixer.SDK.csproj", "{39E656B3-B286-4336-B306-6A80FF3E76AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Data", "ExchangeRates.Data\ExchangeRates.Data.csproj", "{7C56E2BB-8520-4072-B4A6-16C82D2490A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRates.Json", "ExchangeRates.Json\ExchangeRates.Json.csproj", "{B7041236-7330-4B86-8FCD-4CDC506D0025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Json", "ExchangeRates.Json\ExchangeRates.Json.csproj", "{B7041236-7330-4B86-8FCD-4CDC506D0025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRates.Services", "ExchangeRates.Services\ExchangeRates.Services.csproj", "{7B24044A-CFE6-4CFA-835E-7CB635F135C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Services", "ExchangeRates.Services\ExchangeRates.Services.csproj", "{7B24044A-CFE6-4CFA-835E-7CB635F135C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRates.Configuration", "ExchangeRates.Configuration\ExchangeRates.Configuration.csproj", "{AACFB089-43FB-4247-86F9-49924A65E79F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRates.Configuration", "ExchangeRates.Configuration\ExchangeRates.Configuration.csproj", "{AACFB089-43FB-4247-86F9-49924A65E79F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRates.Collector", "ExchangeRates.Collector\ExchangeRates.Collector.csproj", "{DCB78F3B-EF28-45FD-8C7C-5D1E64D10DDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C91B507-DE98-4149-BDAB-24305AECC9F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39E656B3-B286-4336-B306-6A80FF3E76AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{AACFB089-43FB-4247-86F9-49924A65E79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AACFB089-43FB-4247-86F9-49924A65E79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AACFB089-43FB-4247-86F9-49924A65E79F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB78F3B-EF28-45FD-8C7C-5D1E64D10DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB78F3B-EF28-45FD-8C7C-5D1E64D10DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB78F3B-EF28-45FD-8C7C-5D1E64D10DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB78F3B-EF28-45FD-8C7C-5D1E64D10DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

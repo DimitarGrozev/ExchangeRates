@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExchangeRates.Json.Contracts
+namespace ExchangeRates.Json.Contracts.Responses
 {
-    public class Response<T> where T: ResponseEntity
+    public class Response<T> where T : ResponseEntity
     {
         public string Message { get; set; }
 

@@ -1,11 +1,9 @@
-using System;
+using Fixerr;
+using Fixerr.Models;
 using ExchangeRates.Configuration;
 using ExchangeRates.Data;
 using ExchangeRatesCollector.Utilities;
-using Fixerr;
-using Fixerr.Models;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
@@ -34,8 +32,8 @@ namespace ExchangeRatesCollector
             this.redisConnection = redisConnection;
         }
 
-        [Function("GetExchangeRates")]
-        public async Task GetExchangeRates([TimerTrigger("%TimerSchedule%")] MyInfo myTimer)
+        [Function("FetchExchangeRates")]
+        public async Task FetchExchangeRates([TimerTrigger("%TimerSchedule%")] MyInfo myTimer)
         {
             this.logger.LogInformation($"[{DateTime.Now}] Fetching exchange rates...");
 

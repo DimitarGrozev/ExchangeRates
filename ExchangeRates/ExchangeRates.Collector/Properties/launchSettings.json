@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "ExchangeRatesCollector": {
+    "ExchangeRates.Collector": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7077",
+      "commandLineArgs": "--port 7250",
       "launchBrowser": false
     }
   }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExchangeRates.Json.Contracts
+namespace ExchangeRates.Json.Contracts.Responses
 {
-    public class ExchangeRate: ResponseEntity
+    public class ExchangeRateResponse : ResponseEntity
     {
         public string? Base { get; set; }
 
