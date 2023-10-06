@@ -1,10 +1,14 @@
 using System;
 using ExchangeRates.Data;
+using ExchangeRatesCollector.Configurations;
 using ExchangeRatesCollector.Utilities;
 using Fixerr;
+using Fixerr.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 
 namespace ExchangeRatesCollector
 {
@@ -12,30 +16,46 @@ namespace ExchangeRatesCollector
     {
         private readonly ILogger _logger;
         private readonly IFixerClient fixerClient;
+        private readonly IOptions<ExchangeRatesConfiguration> exchangeRatesConfig;
         private readonly ExchangeRatesDbContext dbContext;
+        private readonly ConnectionMultiplexer redisConnection;
 
         public ExchangeRatesCollectorFunction(
             ILoggerFactory loggerFactory,
             IFixerClient fixerClient,
-            ExchangeRatesDbContext dbContext)
+            IOptions<ExchangeRatesConfiguration> exchangeRatesConfig,
+            ExchangeRatesDbContext dbContext,
+            ConnectionMultiplexer redisConnection)
         {
             _logger = loggerFactory.CreateLogger<ExchangeRatesCollectorFunction>();
             this.fixerClient = fixerClient;
+            this.exchangeRatesConfig = exchangeRatesConfig;
             this.dbContext = dbContext;
+            this.redisConnection = redisConnection;
         }
 
         [Function("GetExchangeRates")]
-        public async Task Run([TimerTrigger("%TimerSchedule%")] MyInfo myTimer)
+        public async Task GetExchangeRates([TimerTrigger("%TimerSchedule%")] MyInfo myTimer)
         {
             _logger.LogInformation($"[{DateTime.Now}] Fetching exchange rates...");
 
-            var rates = await this.fixerClient.GetLatestRateAsync();
+            var redisCache = this.redisConnection.GetDatabase();
+            var latestRateTasks = new List<Task<LatestRate?>>();
 
-            if (rates != null)
+            foreach (var currency in this.exchangeRatesConfig.Value.FollowedCurrencies)
             {
-                var exchangeRate = rates.ToExchangeRate();
-                await this.dbContext.ExchangeRates.AddAsync(exchangeRate);
+                latestRateTasks.Add(this.fixerClient.GetLatestRateAsync(baseCurrency: currency));
+            }
+
+            var latestRates = await Task.WhenAll(latestRateTasks);
+
+            if (latestRates != null && latestRates.Length > 0)
+            {
+                var exchangeRates = latestRates.ToExchangeRate().Where(exchangeRate => exchangeRate != null).ToList();
+                await this.dbContext.ExchangeRates.AddRangeAsync(exchangeRates);
                 await this.dbContext.SaveChangesAsync();
+
+                exchangeRates.ForEach(exchangeRate => redisCache.StringSet(exchangeRate.Base, exchangeRate.RatesJson));
             }
 
             _logger.LogInformation($"[{DateTime.Now}] Fetching completed...");

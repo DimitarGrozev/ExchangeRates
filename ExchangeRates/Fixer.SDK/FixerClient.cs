@@ -15,9 +15,13 @@ internal partial class FixerClient : IFixerClient
 {
     private static readonly HttpClient? HttpClient = new HttpClient();
 
-    public FixerClient()
+    static FixerClient()
     {
         HttpClient.BaseAddress = FixerEnvironment.BaseUri;
+    }
+
+    public FixerClient()
+    {
     }
 
     public FixerClient(HttpClient? httpClient, IOptions<FixerOptions> options)
