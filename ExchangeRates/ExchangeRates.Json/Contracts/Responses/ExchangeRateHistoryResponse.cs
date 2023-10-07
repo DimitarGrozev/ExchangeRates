@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.Json.Contracts.Responses
 {
-    public class Response<T> where T : ResponseEntitiy
+    public class ExchangeRateHistoryResponse: ResponseEntitiy
     {
-        public string Message { get; set; }
-
-        public bool IsSuccsessful { get; set; } = true;
-
-        public T Value { get; set; }
+        public IEnumerable<ExchangeRate> ExchangeRateHistory { get; set; }
     }
 }

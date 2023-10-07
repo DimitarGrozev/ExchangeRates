@@ -9,7 +9,7 @@ namespace ExchangeRates.Json.Utilities
 {
     internal static class ResponseFactory
     {
-        internal static Response<T> CreateSuccessResponse<T>(string message, T value) where T : ResponseEntity, new()
+        internal static Response<T> CreateSuccessResponse<T>(string message, T value) where T : ResponseEntitiy, new()
         {
             return new Response<T>
             {
@@ -18,7 +18,7 @@ namespace ExchangeRates.Json.Utilities
             };
         }
 
-        internal static Response<T> CreateErrorResponse<T>(string message) where T : ResponseEntity, new()
+        internal static Response<T> CreateErrorResponse<T>(string message) where T : ResponseEntitiy, new()
         {
             return new Response<T>
             {

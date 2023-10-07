@@ -18,5 +18,11 @@ namespace ExchangeRates.Data.Models
         public long Timestamp { get; set; }
 
         public string Currency { get; set; }
+
+        public RequestType RequestType { get; set; }
+
+        public string ExitServiceName { get; set; }
+
+        public string? AdditionalParameters { get; set; }
     }
 }

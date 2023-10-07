@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.Json.Contracts.Responses
 {
-    public class ResponseEntity
+    public class ResponseEntitiy
     {
     }
 }

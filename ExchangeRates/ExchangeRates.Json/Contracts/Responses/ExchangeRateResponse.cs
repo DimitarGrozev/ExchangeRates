@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.Json.Contracts.Responses
 {
-    public class ExchangeRateResponse : ResponseEntity
+    public class ExchangeRateResponse : ResponseEntitiy
     {
         public string? Base { get; set; }
 
