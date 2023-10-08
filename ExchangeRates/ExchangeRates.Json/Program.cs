@@ -27,10 +27,10 @@ var host = new HostBuilder()
                         UriPattern = "api/currentExchangeRate",
                         HeaderValue = "60",
                         Method = "POST",
-                        LimitMethod = new FixedWindowRateLimitMethod
+                        LimitMethod = new SlidingWindowRateLimitMethod
                         {
-                            PermitLimit = 1,
-                            IntervalInSeconds = 60
+                            PermitLimit = 2,
+                            IntervalInSeconds = 10
                         },
                         IdentityIdExtractor = (request) =>
                         {
