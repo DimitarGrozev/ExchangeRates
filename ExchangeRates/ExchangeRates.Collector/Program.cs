@@ -1,5 +1,6 @@
 using ExchangeRates.Configuration;
 using ExchangeRates.Data;
+using ExchangeRates.Services;
 using Fixerr.Installer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,9 +35,11 @@ void Configure(IServiceCollection services)
 
     services.AddFixer(configRoot.GetValue<string>("Fixer_API_Key"));
     services.AddSingleton(ConnectionMultiplexer.Connect(configRoot.GetConnectionString("Redis")));
+    services.AddScoped<MessageClientService>();
     services.AddDbContext<ExchangeRatesDbContext>(
                 options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, configRoot.GetConnectionString("Database")));
     services.Configure<ExchangeRatesConfiguration>(configRoot.GetSection("ExchangeRatesConfiguration"));
+    services.Configure<MessageClientConfiguration>(configRoot.GetSection("MessageClientConfiguration"));
 }
 
 IConfigurationRoot BuilderConfiguration()

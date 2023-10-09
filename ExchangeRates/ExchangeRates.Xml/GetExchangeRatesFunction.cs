@@ -33,13 +33,12 @@ namespace ExchangeRates.Xml
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
             var exchangeRateRequest = await req.ToReqestObject<LatestExchangeRateRequest>();
-            var response = req.CreateResponse();
 
             await this.statisticsCollectorService.SaveRequestHistoryAsync(exchangeRateRequest.ToDTO());
 
             if (!this.validationService.IsRequestedCurrencySupported(exchangeRateRequest.Currency))
             {
-                return await ResponseFactory.CreateErrorResponse<ExchangeRateResponse>($"Exchange rate for {exchangeRateRequest.Currency} is not supported", response);
+                return await ResponseFactory.CreateErrorResponse<ExchangeRateResponse>($"Exchange rate for {exchangeRateRequest.Currency} is not supported", req);
             }
 
             this.logger.LogInformation($"[{DateTime.Now}] Fetching JSON data for currency {exchangeRateRequest.Currency} from cache");
@@ -48,13 +47,13 @@ namespace ExchangeRates.Xml
 
             if (exchangeRate == null)
             {
-                return await ResponseFactory.CreateErrorResponse<ExchangeRateResponse>($"Exchange rate for {exchangeRateRequest.Currency} is not available in our system", response);
+                return await ResponseFactory.CreateErrorResponse<ExchangeRateResponse>($"Exchange rate for {exchangeRateRequest.Currency} is not available in our system", req);
             }
 
             return await ResponseFactory.CreateSuccessResponse(
                 $"Successfully fetched JSON data for {exchangeRate.Value.Currency} exchange rate",
                 new ExchangeRateResponse { Base = exchangeRate.Value.Currency, RatesJson = exchangeRate.Value.RatesJson },
-                response);
+                req);
         }
 
         [Function("exchangeRateHistory")]
@@ -62,26 +61,25 @@ namespace ExchangeRates.Xml
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
             var exchangeRateRequest = await req.ToReqestObject<ExchangeRateHistoryRequest>();
-            var response = req.CreateResponse();
 
             await this.statisticsCollectorService.SaveRequestHistoryAsync(exchangeRateRequest.ToDto());
 
             if (!this.validationService.IsRequestedCurrencySupported(exchangeRateRequest.Currency))
             {
-                return await ResponseFactory.CreateErrorResponse<ExchangeRateHistoryResponse>($"Exchange rate history for {exchangeRateRequest.Currency} is not supported", response);
+                return await ResponseFactory.CreateErrorResponse<ExchangeRateHistoryResponse>($"Exchange rate history for {exchangeRateRequest.Currency} is not supported", req);
             }
 
             var exchangeRateHistory = await this.statisticsCollectorService.GetExchangeRateHistoryAsync(exchangeRateRequest.Currency, exchangeRateRequest.Period);
 
             if (exchangeRateHistory.Count == 0)
             {
-                return await ResponseFactory.CreateErrorResponse<ExchangeRateHistoryResponse>($"Exchange rate history for {exchangeRateRequest.Currency} is not available in our system", response);
+                return await ResponseFactory.CreateErrorResponse<ExchangeRateHistoryResponse>($"Exchange rate history for {exchangeRateRequest.Currency} is not available in our system", req);
             }
 
             return await ResponseFactory.CreateSuccessResponse(
                 $"Successfully fetched JSON data for exchange rate history for {exchangeRateRequest.Currency} within the last {exchangeRateRequest.Period} hours",
                 new ExchangeRateHistoryResponse { ExchangeRateHistory = exchangeRateHistory },
-                response);
+                req);
         }
     }
 }

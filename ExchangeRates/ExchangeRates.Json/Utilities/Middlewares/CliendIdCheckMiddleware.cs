@@ -31,7 +31,7 @@ namespace ExchangeRates.Json.Utilities.Middlewares
                 if (string.IsNullOrEmpty(cliendId))
                 {
                     var res = request!.CreateResponse();
-                    await res.WriteStringAsync("Please regiser in our site and provide the API key as a query parameter");
+                    await res.WriteStringAsync("Please provide clientId={your API key} as a query parameter");
                     res.StatusCode = HttpStatusCode.Unauthorized;
                     context.GetInvocationResult().Value = res;
 

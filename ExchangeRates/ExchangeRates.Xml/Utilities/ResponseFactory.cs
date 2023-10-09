@@ -13,8 +13,10 @@ namespace ExchangeRates.Xml.Utilities
 {
     internal static class ResponseFactory
     {
-        internal static async Task<HttpResponseData> CreateSuccessResponse<T>(string message, T value, HttpResponseData response) where T : ResponseEntitiy, new()
+        internal static async Task<HttpResponseData> CreateSuccessResponse<T>(string message, T value, HttpRequestData request) where T : ResponseEntitiy, new()
         {
+            var response = request.CreateResponse();
+
             var body =  new Response<T>
             {
                 Message = message,
@@ -36,8 +38,10 @@ namespace ExchangeRates.Xml.Utilities
             return response;
         }
 
-        internal static async Task<HttpResponseData> CreateErrorResponse<T>(string message, HttpResponseData response) where T : ResponseEntitiy, new()
+        internal static async Task<HttpResponseData> CreateErrorResponse<T>(string message, HttpRequestData request) where T : ResponseEntitiy, new()
         {
+            var response = request.CreateResponse();
+
             var body = new Response<T>
             {
                 Message = message,

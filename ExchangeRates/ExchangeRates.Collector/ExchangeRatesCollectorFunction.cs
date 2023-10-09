@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using ExchangeRates.Services;
 
 namespace ExchangeRatesCollector
 {
@@ -17,19 +18,22 @@ namespace ExchangeRatesCollector
         private readonly IOptions<ExchangeRatesConfiguration> exchangeRatesConfig;
         private readonly ExchangeRatesDbContext dbContext;
         private readonly ConnectionMultiplexer redisConnection;
+        private readonly MessageClientService messageClient;
 
         public ExchangeRatesCollectorFunction(
             ILoggerFactory loggerFactory,
             IFixerClient fixerClient,
             IOptions<ExchangeRatesConfiguration> exchangeRatesConfig,
             ExchangeRatesDbContext dbContext,
-            ConnectionMultiplexer redisConnection)
+            ConnectionMultiplexer redisConnection,
+            MessageClientService messageClient)
         {
             this.logger = loggerFactory.CreateLogger<ExchangeRatesCollectorFunction>();
             this.fixerClient = fixerClient;
             this.exchangeRatesConfig = exchangeRatesConfig;
             this.dbContext = dbContext;
             this.redisConnection = redisConnection;
+            this.messageClient = messageClient;
         }
 
         [Function("FetchExchangeRates")]
@@ -60,9 +64,10 @@ namespace ExchangeRatesCollector
 
                 // can set cache expiry but if trigger is delayed we might not hit it on time so just overwrite on new request
                 exchangeRates.ForEach(exchangeRate =>
-                    redisCache.StringSet(exchangeRate.Base, exchangeRate.RatesJson)); 
+                    redisCache.StringSet(exchangeRate.Base, exchangeRate.RatesJson));
 
                 // publish message to rabbitMQ
+                this.messageClient.SendMessage(exchangeRates);
             }
 
             this.logger.LogInformation($"[{DateTime.Now}] Fetching completed...");
