@@ -1,6 +1,6 @@
 # ExchangeRates Overview
 
-ExchangeRates is a serverless solution for fetching and distributing the latest exchange rate information in real time. It comes with out-of-the-box scalling based on incomming traffic with the ability to cache latest exchange rates in Redis. In addition it provides rate limitting capabilities based on a client ID to prevent API abuse.
+ExchangeRates is a serverless solution for fetching and distributing the latest exchange rate information from Fixer.io in real time through RabbitMQ. It comes with out-of-the-box scalling based on incomming traffic with the ability to cache latest exchange rates in Redis. In addition it provides public API in JSON and XML format with rate limitting capabilities based on a client ID to prevent API overuse.
 
 **Key Components:**
 
